@@ -11,6 +11,9 @@
 
 declare(strict_types=1);
 
+// Load environment variables from .env
+require_once __DIR__ . '/env_loader.php';
+
 /* ----------------------------------------------------------
  * 1. ERROR REPORTING (disable display in production)
  * ---------------------------------------------------------- */
@@ -36,18 +39,18 @@ if (session_status() === PHP_SESSION_NONE) {
 /* ----------------------------------------------------------
  * 3. DATABASE CREDENTIALS
  * ---------------------------------------------------------- */
-define('DB_HOST',    'localhost');
-define('DB_NAME',    'appointment_system');
-define('DB_USER',    'root');               // change in production
-define('DB_PASS',    '');                    // change in production
+define('DB_HOST',    getenv('DB_HOST') ?: 'localhost');
+define('DB_NAME',    getenv('DB_NAME') ?: 'appointment_system');
+define('DB_USER',    getenv('DB_USER') ?: 'root');
+define('DB_PASS',    getenv('DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 
 /* ----------------------------------------------------------
  * 4. RAZORPAY CREDENTIALS
  * ---------------------------------------------------------- */
-define('RAZORPAY_KEY_ID',     'rzp_test_XXXXXXXXXXXXXXX');   // replace with your key
-define('RAZORPAY_KEY_SECRET', 'XXXXXXXXXXXXXXXXXXXXXXXX');    // replace with your secret
-define('CONSULTATION_FEE',    500);                           // amount in INR
+define('RAZORPAY_KEY_ID',     getenv('RAZORPAY_KEY_ID') ?: '');
+define('RAZORPAY_KEY_SECRET', getenv('RAZORPAY_KEY_SECRET') ?: '');
+define('CONSULTATION_FEE',    (int)(getenv('CONSULTATION_FEE') ?: 500));
 define('CURRENCY',            'INR');
 
 /* ----------------------------------------------------------

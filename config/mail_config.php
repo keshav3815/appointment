@@ -19,18 +19,19 @@ use PHPMailer\PHPMailer\Exception;
 
 // Autoload PHPMailer (adjust path if not using Composer)
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/env_loader.php';
 
 /* ----------------------------------------------------------
- * SMTP CREDENTIALS — update with your real values
+ * SMTP CREDENTIALS — loaded from .env file
  * ---------------------------------------------------------- */
-define('SMTP_HOST',       'smtp.gmail.com');        // SMTP server
-define('SMTP_PORT',       587);                      // TLS port
-define('SMTP_USERNAME',   'REDACTED_EMAIL');
-define('SMTP_PASSWORD',   'REDACTED_PASSWORD');           // ⚠ REPLACE with 16-char App Password from https://myaccount.google.com/apppasswords
-define('SMTP_ENCRYPTION', 'tls');                    // tls | ssl
-define('SMTP_FROM_EMAIL', 'REDACTED_EMAIL');
-define('SMTP_FROM_NAME',  'Doctor Appointment System');
-define('SMTP_FALLBACK_NATIVE', true);                // Use PHP mail() as fallback when SMTP fails
+define('SMTP_HOST',       getenv('SMTP_HOST') ?: 'smtp.gmail.com');
+define('SMTP_PORT',       (int)(getenv('SMTP_PORT') ?: 587));
+define('SMTP_USERNAME',   getenv('SMTP_USERNAME') ?: '');
+define('SMTP_PASSWORD',   getenv('SMTP_PASSWORD') ?: '');
+define('SMTP_ENCRYPTION', getenv('SMTP_ENCRYPTION') ?: 'tls');
+define('SMTP_FROM_EMAIL', getenv('SMTP_FROM_EMAIL') ?: '');
+define('SMTP_FROM_NAME',  getenv('SMTP_FROM_NAME') ?: 'Doctor Appointment System');
+define('SMTP_FALLBACK_NATIVE', true);
 
 /* ----------------------------------------------------------
  * sendMail()  — reusable function for any outbound email
