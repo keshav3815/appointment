@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Patient Appointment Booking</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+<style>
+body{
+    background: linear-gradient(135deg,#eef4ff,#f9fbff);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.appointment-card{
+    border-radius:16px;
+    border:none;
+}
+
+.section-header{
+    font-weight:600;
+    color:#0d6efd;
+    margin-top:25px;
+    margin-bottom:15px;
+    border-left:4px solid #0d6efd;
+    padding-left:10px;
+}
+
+.form-label{
+    font-weight:500;
+}
+
+.btn-primary{
+    padding:12px;
+    font-size:17px;
+    border-radius:10px;
+}
+
+.otp-box{
+    display:none;
+    background:#f1f7ff;
+    border-radius:10px;
+    padding:15px;
+}
+
+input[readonly]{
+    background:#f8f9fa;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container py-5">
+<div class="row justify-content-center">
+<div class="col-lg-9 col-xl-8">
+
+<div class="card appointment-card shadow-lg">
+<div class="card-body p-4 p-md-5">
+
+<h3 class="text-center mb-4 text-primary">
+    <i class="fa-solid fa-calendar-check"></i> Book Patient Appointment
+</h3>
+
+<form>
+
+<!-- ================= PATIENT DETAILS ================= -->
+<div class="section-header">
+    <i class="fa-solid fa-user"></i> Patient Details
+</div>
+
+<div class="row g-3">
+
+<div class="col-md-6">
+<label class="form-label">Full Name *</label>
+<input type="text" class="form-control form-control-lg" required>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Mobile Number *</label>
+<input type="tel" class="form-control form-control-lg" maxlength="10" required>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Email ID *</label>
+<div class="input-group input-group-lg">
+<input type="email" class="form-control" id="email" required>
+<button type="button" class="btn btn-outline-primary" onclick="sendOTP()">Send OTP</button>
+</div>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Gender *</label><br>
+<div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="gender" required>
+<label class="form-check-label">Male</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="gender">
+<label class="form-check-label">Female</label>
+</div>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Date of Birth *</label>
+<input type="date" class="form-control form-control-lg" id="dob" onchange="calculateAge()" required>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Age</label>
+<input type="text" class="form-control form-control-lg" id="age" readonly>
+</div>
+
+</div>
+
+<!-- ================= OTP ================= -->
+<div class="otp-box mt-4" id="otpBox">
+<label class="form-label">Email OTP Verification *</label>
+<div class="input-group input-group-lg">
+<input type="text" class="form-control" maxlength="6">
+<button type="button" class="btn btn-success" onclick="verifyOTP()">Verify OTP</button>
+</div>
+<small class="text-muted">OTP valid for 5 minutes</small>
+</div>
+
+<!-- ================= ADDRESS ================= -->
+<div class="section-header">
+    <i class="fa-solid fa-location-dot"></i> Address
+</div>
+
+<div class="row g-3">
+<div class="col-md-6">
+<label class="form-label">Society / Sector Name</label>
+<input type="text" class="form-control form-control-lg">
+</div>
+
+<div class="col-md-3">
+<label class="form-label">City *</label>
+<input type="text" class="form-control form-control-lg" required>
+</div>
+
+<div class="col-md-3">
+<label class="form-label">State *</label>
+<select class="form-select form-select-lg" required>
+<option value="">Select</option>
+<option>Haryana</option>
+<option>Delhi</option>
+<option>Uttar Pradesh</option>
+</select>
+</div>
+</div>
+
+<!-- ================= APPOINTMENT ================= -->
+<div class="section-header">
+    <i class="fa-solid fa-hospital"></i> Appointment Details
+</div>
+
+<div class="row g-3">
+
+<div class="col-md-6">
+<label class="form-label">Department *</label>
+<select class="form-select form-select-lg" required>
+<option value="">Select</option>
+<option>General Medicine</option>
+<option>Orthopaedics</option>
+<option>Cardiology</option>
+</select>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Preferred Doctor</label>
+<select class="form-select form-select-lg">
+<option value="">Any Available</option>
+</select>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Appointment Date *</label>
+<input type="date" class="form-control form-control-lg" required>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Time Slot *</label>
+<select class="form-select form-select-lg" required>
+<option value="">Select</option>
+<option>10:00 – 11:00</option>
+<option>11:00 – 12:00</option>
+</select>
+</div>
+
+<div class="col-md-6">
+<label class="form-label">Appointment Type *</label><br>
+<div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="type" required>
+<label class="form-check-label">New</label>
+</div>
+<div class="form-check form-check-inline">
+<input class="form-check-input" type="radio" name="type">
+<label class="form-check-label">Follow-up</label>
+</div>
+</div>
+
+</div>
+
+<!-- ================= REASON ================= -->
+<div class="section-header">
+    <i class="fa-solid fa-notes-medical"></i> Reason for Visit
+</div>
+
+<div class="mb-3">
+<label class="form-label">Reason *</label>
+<select class="form-select form-select-lg" required>
+<option value="">Select</option>
+<option>Fever</option>
+<option>Pain</option>
+<option>Routine Check-up</option>
+</select>
+</div>
+
+<div class="mb-3">
+<label class="form-label">Symptoms (Optional)</label>
+<textarea class="form-control form-control-lg" rows="3"></textarea>
+</div>
+
+<div class="mb-4">
+<label class="form-label">Duration (Optional)</label>
+<select class="form-select form-select-lg">
+<option value="">Select</option>
+<option>Today</option>
+<option>1–3 days</option>
+<option>1 week</option>
+<option>More than 1 month</option>
+</select>
+</div>
+
+<button type="submit" id="submitBtn" class="btn btn-primary w-100" disabled>
+    <i class="fa-solid fa-paper-plane"></i> Submit Appointment Request
+</button>
+
+</form>
+
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+function sendOTP(){
+    document.getElementById("otpBox").style.display="block";
+    alert("OTP sent to email (demo)");
+}
+
+function verifyOTP(){
+    alert("OTP verified (demo)");
+    document.getElementById("submitBtn").disabled=false;
+}
+
+function calculateAge(){
+    const dob=document.getElementById("dob").value;
+    if(!dob) return;
+    const d=new Date(dob), t=new Date();
+    let age=t.getFullYear()-d.getFullYear();
+    if(t.getMonth()<d.getMonth() || (t.getMonth()==d.getMonth() && t.getDate()<d.getDate())) age--;
+    document.getElementById("age").value=age+" years";
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,574 @@
+/* ============================================================
+ * Doctor Appointment Booking — Premium Multi-Step Wizard CSS
+ * ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ============================================================
+ * ROOT VARIABLES
+ * ============================================================ */
+:root {
+    --primary:      #4f46e5;
+    --primary-light:#818cf8;
+    --primary-bg:   #eef2ff;
+    --accent:       #06b6d4;
+    --success:      #10b981;
+    --success-bg:   #d1fae5;
+    --danger:       #ef4444;
+    --warning:      #f59e0b;
+    --dark:         #1e293b;
+    --muted:        #64748b;
+    --light:        #f8fafc;
+    --card-bg:      rgba(255,255,255,0.82);
+    --glass-blur:   14px;
+    --radius-lg:    20px;
+    --radius-md:    12px;
+    --radius-sm:    8px;
+    --shadow-card:  0 12px 40px rgba(79,70,229,0.10), 0 2px 12px rgba(0,0,0,0.04);
+    --shadow-btn:   0 4px 14px rgba(79,70,229,0.18);
+    --font:         'Inter', 'Segoe UI', system-ui, sans-serif;
+    --transition:   all 0.3s cubic-bezier(.4,0,.2,1);
+}
+
+/* ============================================================
+ * GLOBAL
+ * ============================================================ */
+*,*::before,*::after { box-sizing: border-box; }
+
+body {
+    min-height: 100vh;
+    font-family: var(--font);
+    background: linear-gradient(135deg, #e0e7ff 0%, #f0f9ff 50%, #fdf4ff 100%);
+    color: var(--dark);
+    position: relative;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Animated background blobs ---- */
+body::before,
+body::after {
+    content: '';
+    position: fixed;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.15;
+    pointer-events: none;
+    animation: blobFloat 12s ease-in-out infinite alternate;
+}
+body::before {
+    width: 500px; height: 500px;
+    left: -150px; top: -150px;
+    background: linear-gradient(135deg, var(--primary) 40%, var(--accent) 100%);
+}
+body::after {
+    width: 400px; height: 400px;
+    right: -120px; bottom: -120px;
+    background: linear-gradient(135deg, #f472b6 40%, var(--primary-light) 100%);
+    animation-delay: -6s;
+}
+
+@keyframes blobFloat {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(40px, 30px) scale(1.08); }
+}
+
+/* ============================================================
+ * MAIN CARD — Glassmorphism
+ * ============================================================ */
+.appointment-card {
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255,255,255,0.5);
+    background: var(--card-bg);
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+.appointment-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary-light));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* ============================================================
+ * FORM TITLE
+ * ============================================================ */
+.form-title {
+    font-weight: 800;
+    font-size: 1.55rem;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
+}
+.form-title i {
+    -webkit-text-fill-color: var(--primary);
+}
+
+/* ============================================================
+ * STEP PROGRESS BAR
+ * ============================================================ */
+.step-progress {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0;
+    margin: 0 auto 32px;
+    max-width: 620px;
+    position: relative;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+.step-circle {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 15px;
+    border: 2.5px solid #cbd5e1;
+    background: #fff;
+    color: #94a3b8;
+    transition: var(--transition);
+    position: relative;
+    z-index: 2;
+}
+
+.step-label {
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #94a3b8;
+    margin-top: 8px;
+    text-align: center;
+    transition: var(--transition);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    max-width: 90px;
+    line-height: 1.3;
+}
+
+/* Connector line */
+.step-connector {
+    flex: 1;
+    height: 3px;
+    background: #e2e8f0;
+    position: relative;
+    top: 22px;
+    margin: 0 -2px;
+    border-radius: 3px;
+    transition: background 0.5s ease;
+    min-width: 40px;
+}
+
+/* Active step */
+.step-item.active .step-circle {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, var(--primary), var(--primary-light));
+    color: #fff;
+    box-shadow: 0 0 0 6px rgba(79,70,229,0.12), var(--shadow-btn);
+    transform: scale(1.1);
+}
+.step-item.active .step-label {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* Completed step */
+.step-item.completed .step-circle {
+    border-color: var(--success);
+    background: var(--success);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(16,185,129,0.12);
+}
+.step-item.completed .step-label {
+    color: var(--success);
+}
+.step-connector.completed {
+    background: linear-gradient(90deg, var(--success), var(--success));
+}
+
+/* ============================================================
+ * SECTION HEADERS (inside steps)
+ * ============================================================ */
+.section-header {
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 6px;
+    margin-bottom: 20px;
+    padding: 10px 16px;
+    font-size: 1.1rem;
+    letter-spacing: 0.01em;
+    background: linear-gradient(90deg, var(--primary-bg) 0%, rgba(255,255,255,0) 100%);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+    animation: slideInHeader 0.6s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes slideInHeader {
+    from { opacity: 0; transform: translateX(-24px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ============================================================
+ * FORM LABELS
+ * ============================================================ */
+.form-label {
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--dark);
+    font-size: 0.875rem;
+    letter-spacing: 0.01em;
+}
+.form-label .text-danger {
+    font-weight: 400;
+}
+
+/* ============================================================
+ * FORM CONTROLS
+ * ============================================================ */
+.form-control,
+.form-select {
+    border-radius: var(--radius-sm);
+    border: 1.5px solid #e2e8f0;
+    background: rgba(255,255,255,0.96);
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    color: var(--dark);
+    transition: var(--transition);
+}
+.form-control-lg, .form-select-lg {
+    padding: 12px 16px;
+    font-size: 1rem;
+}
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.10);
+    outline: none;
+}
+.form-control.is-invalid,
+.form-select.is-invalid {
+    border-color: var(--danger);
+    box-shadow: 0 0 0 3px rgba(239,68,68,0.08);
+}
+.invalid-feedback {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+input[readonly] {
+    background: #f1f5f9;
+    color: var(--muted);
+    cursor: default;
+}
+
+textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* input group buttons */
+.input-group .btn {
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* ============================================================
+ * CUSTOM RADIO & CHECKBOX
+ * ============================================================ */
+.form-check-input[type="radio"] {
+    border-radius: 50%;
+}
+.form-check-input {
+    width: 1.25em; height: 1.25em;
+    margin-top: 0.15em;
+    border: 2px solid #cbd5e1;
+    transition: var(--transition);
+    cursor: pointer;
+}
+.form-check-input:checked {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+}
+.form-check-label {
+    font-weight: 500;
+    cursor: pointer;
+    padding-left: 2px;
+}
+
+/* ============================================================
+ * OTP BOX
+ * ============================================================ */
+.otp-box {
+    display: none;
+    background: linear-gradient(135deg, rgba(79,70,229,0.04), rgba(6,182,212,0.04));
+    border-radius: var(--radius-md);
+    padding: 20px;
+    border: 1.5px dashed var(--primary-light);
+    margin-top: 16px;
+    animation: expandIn 0.4s cubic-bezier(.4,0,.2,1);
+}
+
+@keyframes expandIn {
+    from { opacity: 0; max-height: 0; }
+    to   { opacity: 1; max-height: 200px; }
+}
+
+.otp-box .form-label {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ============================================================
+ * BUTTONS
+ * ============================================================ */
+.btn {
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    transition: var(--transition);
+    letter-spacing: 0.01em;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+    border: none;
+    color: #fff;
+    box-shadow: var(--shadow-btn);
+}
+.btn-primary:hover:not(:disabled) {
+    background: linear-gradient(135deg, #4338ca 0%, #6366f1 100%);
+    box-shadow: 0 6px 20px rgba(79,70,229,0.25);
+    transform: translateY(-1px);
+}
+.btn-primary:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    background: #c7d2fe;
+    box-shadow: none;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success) 0%, #34d399 100%);
+    border: none;
+    box-shadow: 0 4px 14px rgba(16,185,129,0.18);
+    color: #fff;
+}
+.btn-success:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(16,185,129,0.25);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary);
+    color: var(--primary);
+    background: transparent;
+    font-weight: 600;
+}
+.btn-outline-primary:hover {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.btn-outline-secondary {
+    border: 2px solid #e2e8f0;
+    color: var(--muted);
+    background: #fff;
+    font-weight: 600;
+}
+.btn-outline-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-bg);
+}
+
+/* Step nav buttons */
+.btn-step {
+    padding: 12px 32px;
+    font-size: 1rem;
+    border-radius: var(--radius-md);
+    min-width: 140px;
+}
+
+/* ============================================================
+ * STEP PANELS — Show/hide
+ * ============================================================ */
+.step-panel {
+    display: none;
+    animation: fadeSlideIn 0.5s cubic-bezier(.4,0,.2,1);
+}
+.step-panel.active {
+    display: block;
+}
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+ * ALERTS
+ * ============================================================ */
+.alert {
+    border-radius: var(--radius-sm);
+    font-weight: 500;
+    animation: alertSlide 0.35s cubic-bezier(.4,0,.2,1);
+    border: none;
+}
+
+@keyframes alertSlide {
+    from { opacity: 0; transform: translateY(-12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.alert-danger  { background: #fef2f2; color: #991b1b; }
+.alert-success { background: #f0fdf4; color: #166534; }
+.alert-warning { background: #fffbeb; color: #92400e; }
+.alert-info    { background: #eff6ff; color: #1e40af; }
+
+/* ============================================================
+ * OTP VERIFIED BADGE
+ * ============================================================ */
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--success);
+    font-weight: 700;
+    font-size: 0.88rem;
+    background: var(--success-bg);
+    padding: 4px 14px;
+    border-radius: 20px;
+}
+
+/* ============================================================
+ * PAYMENT SUMMARY (Step 4)
+ * ============================================================ */
+.payment-summary {
+    background: linear-gradient(135deg, var(--primary-bg) 0%, #f0f9ff 100%);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    border: 1px solid rgba(79,70,229,0.08);
+}
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+    font-size: 0.93rem;
+}
+.summary-row:last-child { border-bottom: none; }
+.summary-label {
+    color: var(--muted);
+    font-weight: 500;
+}
+.summary-value {
+    color: var(--dark);
+    font-weight: 600;
+    text-align: right;
+}
+.payment-amount {
+    font-size: 2.4rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Security note */
+.security-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 500;
+    background: #f8fafc;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid #e2e8f0;
+}
+.security-note i {
+    color: var(--success);
+    font-size: 1rem;
+}
+
+/* ============================================================
+ * NAV BUTTON ROW
+ * ============================================================ */
+.step-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 28px;
+    gap: 12px;
+}
+.step-nav .btn { flex-shrink: 0; }
+
+/* ============================================================
+ * DIVIDER
+ * ============================================================ */
+.divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #e2e8f0, transparent);
+    margin: 24px 0;
+}
+
+/* ============================================================
+ * SPINNER
+ * ============================================================ */
+.btn .fa-spin { margin-right: 6px; }
+
+/* ============================================================
+ * RESPONSIVE
+ * ============================================================ */
+@media (max-width: 768px) {
+    .step-circle { width: 38px; height: 38px; font-size: 13px; }
+    .step-label { font-size: 10px; max-width: 70px; }
+    .step-connector { top: 18px; min-width: 20px; }
+    .btn-step { min-width: 110px; padding: 10px 18px; font-size: 0.92rem; }
+    .form-title { font-size: 1.3rem; }
+    .payment-amount { font-size: 1.8rem; }
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 20px 14px !important;
+    }
+    .appointment-card {
+        border-radius: 14px;
+        margin: 0 4px;
+    }
+    .section-header {
+        font-size: 0.97rem;
+        padding: 8px 12px;
+    }
+    .step-circle { width: 32px; height: 32px; font-size: 12px; }
+    .step-label { font-size: 9px; max-width: 58px; }
+    .step-connector { height: 2px; top: 15px; }
+    .step-nav { flex-wrap: wrap; }
+    .btn-step { min-width: 100%; }
+    .payment-amount { font-size: 1.5rem; }
+    .payment-summary { padding: 16px; }
+    .otp-box { padding: 14px 12px; }
+    body::before { width: 260px; height: 260px; }
+    body::after  { width: 200px; height: 200px; }
+}
