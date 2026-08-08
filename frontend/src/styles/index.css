@@ -1,0 +1,169 @@
+@import "tailwindcss";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+
+@theme {
+  --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+
+/* ============================================================
+ * Patient wizard theme — light glassmorphism (ported 1:1 from
+ * assets/css/style.css)
+ * ============================================================ */
+:root {
+  --primary: #4f46e5;
+  --primary-light: #818cf8;
+  --primary-bg: #eef2ff;
+  --accent: #06b6d4;
+  --success: #10b981;
+  --success-bg: #d1fae5;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --dark: #1e293b;
+  --muted: #64748b;
+  --light: #f8fafc;
+  --card-bg: rgba(255, 255, 255, 0.82);
+  --glass-blur: 14px;
+  --radius-lg: 20px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow-card: 0 12px 40px rgba(79, 70, 229, 0.1), 0 2px 12px rgba(0, 0, 0, 0.04);
+  --shadow-btn: 0 4px 14px rgba(79, 70, 229, 0.18);
+}
+
+/* ============================================================
+ * Admin panel theme — dark (ported 1:1 from admin/assets/css/admin.css)
+ * Applied via a wrapper class on the /admin/* route root so the two
+ * visual systems coexist without one overriding the other's tokens.
+ * ============================================================ */
+.admin-theme {
+  --admin-primary: #6c63ff;
+  --admin-primary-dark: #5a52d5;
+  --admin-accent: #00d2ff;
+  --admin-success: #10b981;
+  --admin-danger: #ef4444;
+  --admin-warning: #f59e0b;
+  --admin-info: #3b82f6;
+  --admin-dark: #0f172a;
+  --admin-dark-2: #1e293b;
+  --admin-dark-3: #334155;
+  --admin-text: #e2e8f0;
+  --admin-text-muted: #94a3b8;
+  --admin-border: rgba(255, 255, 255, 0.08);
+  --admin-glass: rgba(15, 23, 42, 0.65);
+  --admin-glass-hover: rgba(15, 23, 42, 0.8);
+  --sidebar-width: 260px;
+  --topbar-height: 64px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+}
+
+/* ---- Patient wizard: animated gradient background ---- */
+.wizard-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0f9ff 50%, #fdf4ff 100%);
+  position: relative;
+  overflow-x: hidden;
+}
+.wizard-bg::before,
+.wizard-bg::after {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+  animation: blobFloat 12s ease-in-out infinite alternate;
+}
+.wizard-bg::before {
+  width: 500px;
+  height: 500px;
+  left: -150px;
+  top: -150px;
+  background: linear-gradient(135deg, var(--primary) 40%, var(--accent) 100%);
+}
+.wizard-bg::after {
+  width: 400px;
+  height: 400px;
+  right: -120px;
+  bottom: -120px;
+  background: linear-gradient(135deg, #f472b6 40%, var(--primary-light) 100%);
+  animation-delay: -6s;
+}
+@keyframes blobFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(40px, 30px) scale(1.08);
+  }
+}
+
+/* ---- Glassmorphism card, shared by wizard + success pages ---- */
+.glass-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: var(--card-bg);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+.glass-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary-light));
+}
+
+/* ---- Admin: animated login blobs ---- */
+.admin-theme .login-bg {
+  background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 40%, #24243e 100%);
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+.admin-theme .login-bg::before,
+.admin-theme .login-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  animation: floatBlob 8s ease-in-out infinite;
+}
+.admin-theme .login-bg::before {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(108, 99, 255, 0.25), transparent 70%);
+  top: -100px;
+  left: -100px;
+}
+.admin-theme .login-bg::after {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(0, 210, 255, 0.2), transparent 70%);
+  bottom: -80px;
+  right: -80px;
+  animation-duration: 10s;
+  animation-direction: reverse;
+}
+@keyframes floatBlob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, -20px) scale(1.1);
+  }
+}

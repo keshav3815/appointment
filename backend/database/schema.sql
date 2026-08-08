@@ -3,16 +3,13 @@
 -- Engine  : InnoDB (transactional, FK support)
 -- Charset : utf8mb4
 --
--- INSTRUCTIONS FOR CPANEL / SHARED HOSTING:
---   1. Go to cPanel → MySQL Databases
---   2. Create a new database (e.g. youruser_appointment)
---   3. Create a MySQL user and assign it to the database (ALL PRIVILEGES)
---   4. Go to phpMyAdmin, select that database
---   5. Click "Import" tab → upload this file
---   6. Update config/config.php with your DB_NAME, DB_USER, DB_PASS
---
--- The CREATE DATABASE / USE lines below are commented out for
--- cPanel compatibility. Uncomment them for local development.
+-- SETUP:
+--   1. Create a MySQL database and user (see backend/.env.example
+--      for DB_HOST / DB_NAME / DB_USER / DB_PASS).
+--   2. Import this file to create the base tables, then run
+--      `alembic upgrade head` from backend/ to apply the rest
+--      of the schema (admin_users, app_settings, etc.).
+--   3. Update backend/.env with your DB credentials.
 -- ============================================================
 
 -- CREATE DATABASE IF NOT EXISTS `appointment_system`

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"></head>
+<body style="font-family:'Segoe UI',Arial,sans-serif;background:#f4f7fa;padding:30px;">
+    <div style="max-width:540px;margin:auto;background:#fff;border-radius:12px;padding:30px;box-shadow:0 2px 12px rgba(0,0,0,.08);">
+        <h2 style="color:#198754;text-align:center;">✅ Appointment Confirmed</h2>
+        <table style="width:100%;border-collapse:collapse;margin:20px 0;">
+            <tr><td style="padding:8px;font-weight:600;color:#555;">Appointment ID</td>
+                <td style="padding:8px;color:#333;">#{{ appointment_id }}</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:8px;font-weight:600;color:#555;">Patient Name</td>
+                <td style="padding:8px;color:#333;">{{ full_name }}</td></tr>
+            <tr><td style="padding:8px;font-weight:600;color:#555;">Department</td>
+                <td style="padding:8px;color:#333;">{{ department }}</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:8px;font-weight:600;color:#555;">Doctor</td>
+                <td style="padding:8px;color:#333;">{{ doctor }}</td></tr>
+            <tr><td style="padding:8px;font-weight:600;color:#555;">Date</td>
+                <td style="padding:8px;color:#333;">{{ appointment_date }}</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:8px;font-weight:600;color:#555;">Time Slot</td>
+                <td style="padding:8px;color:#333;">{{ time_slot }}</td></tr>
+            <tr><td style="padding:8px;font-weight:600;color:#555;">Amount Paid</td>
+                <td style="padding:8px;color:#333;">₹{{ amount }}</td></tr>
+            <tr style="background:#f9f9f9;"><td style="padding:8px;font-weight:600;color:#555;">Transaction ID</td>
+                <td style="padding:8px;color:#333;">{{ transaction_id }}</td></tr>
+        </table>
+        <p style="text-align:center;color:#888;font-size:13px;">
+            Please arrive 15 minutes before your scheduled time. Bring a valid ID.
+        </p>
+    </div>
+</body>
+</html>
