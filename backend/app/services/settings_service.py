@@ -18,7 +18,27 @@ _DEFAULTS = {
 def get_all_settings(db: Session) -> dict[str, str]:
     rows = db.query(AppSetting).all()
     values = {row.setting_key: row.setting_value for row in rows}
-    return {**_DEFAULTS, **{k: v for k, v in values.items() if v is not None}}
+    merged = {**_DEFAULTS, **{k: v for k, v in values.items() if v is not None}}
+
+    # Allow environment (.env via pydantic BaseSettings) to override SMTP without DB
+    from app.config import settings
+
+    if settings.SMTP_HOST:
+        merged["smtp_host"] = settings.SMTP_HOST
+    if settings.SMTP_PORT:
+        merged["smtp_port"] = str(settings.SMTP_PORT)
+    if settings.SMTP_USERNAME:
+        merged["smtp_username"] = settings.SMTP_USERNAME
+    if settings.SMTP_PASSWORD:
+        merged["smtp_password"] = settings.SMTP_PASSWORD
+    if settings.SMTP_FROM_EMAIL:
+        merged["smtp_from_email"] = settings.SMTP_FROM_EMAIL
+    if settings.SMTP_FROM_NAME:
+        merged["smtp_from_name"] = settings.SMTP_FROM_NAME
+    if settings.SMTP_ENCRYPTION:
+        merged["smtp_encryption"] = settings.SMTP_ENCRYPTION
+
+    return merged
 
 
 def get_setting(db: Session, key: str) -> str:

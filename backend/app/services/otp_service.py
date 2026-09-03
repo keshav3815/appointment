@@ -21,11 +21,12 @@ def db_now(db: Session) -> datetime:
 
 
 def is_rate_limited(db: Session, email: str) -> bool:
+    cutoff = db_now(db) - timedelta(hours=1)
     count = (
         db.query(OtpVerification)
         .filter(
             OtpVerification.email == email,
-            text("created_at > DATE_SUB(NOW(), INTERVAL 1 HOUR)"),
+            OtpVerification.created_at > cutoff,
         )
         .count()
     )
@@ -49,13 +50,14 @@ def create_otp_record(db: Session, email: str) -> tuple[OtpVerification, str]:
 
 
 def is_locked_out(db: Session, email: str) -> bool:
+    cutoff = db_now(db) - timedelta(minutes=LOCKOUT_WINDOW_MINUTES)
     count = (
         db.query(OtpVerification)
         .filter(
             OtpVerification.email == email,
             OtpVerification.is_verified.is_(False),
             OtpVerification.attempts >= LOCKOUT_ATTEMPTS,
-            text(f"created_at > DATE_SUB(NOW(), INTERVAL {LOCKOUT_WINDOW_MINUTES} MINUTE)"),
+            OtpVerification.created_at > cutoff,
         )
         .count()
     )

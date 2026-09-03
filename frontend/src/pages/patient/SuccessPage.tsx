@@ -7,6 +7,9 @@ interface AppointmentSummary {
   appointment_id: number;
   department: string;
   doctor: string;
+  consultation_mode: string | null;
+  clinic_address: string | null;
+  video_link: string | null;
   appointment_date: string;
   time_slot: string;
   appointment_type: string;
@@ -61,7 +64,7 @@ export function SuccessPage() {
 
   if (error) {
     return (
-      <div className="wizard-bg flex items-center justify-center p-8">
+      <div className="bg-white flex items-center justify-center p-8">
         <p className="text-[var(--danger)]">{error}</p>
       </div>
     );
@@ -69,14 +72,14 @@ export function SuccessPage() {
 
   if (!data) {
     return (
-      <div className="wizard-bg flex items-center justify-center p-8">
+      <div className="bg-white flex items-center justify-center p-8">
         <p className="text-[var(--muted)]">Loading…</p>
       </div>
     );
   }
 
   return (
-    <div className="wizard-bg py-8 md:py-12 px-4">
+    <div className="bg-white py-8 md:py-12 px-4">
       <div className="max-w-2xl mx-auto relative z-10">
         <div className="glass-card p-6 md:p-10">
           <div
@@ -114,6 +117,10 @@ export function SuccessPage() {
                 {detailRow("Mobile", data.mobile)}
                 {detailRow("Department", data.department)}
                 {detailRow("Doctor", data.doctor || "Any Available")}
+                {data.consultation_mode &&
+                  detailRow("Consultation Mode", data.consultation_mode === "video" ? "Video Consultation" : "Clinic Visit")}
+                {data.clinic_address && detailRow("Clinic Address", data.clinic_address)}
+                {data.video_link && detailRow("Video Link", data.video_link)}
                 {detailRow("Date", data.appointment_date)}
                 {detailRow("Time Slot", data.time_slot)}
                 {detailRow("Type", data.appointment_type)}

@@ -20,5 +20,7 @@ class Patient(Base):
     city: Mapped[str | None] = mapped_column(String(100), default=None)
     state: Mapped[str | None] = mapped_column(String(100), default=None)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    photo_url: Mapped[str | None] = mapped_column(String(255), default=None)
+    password_hash: Mapped[str | None] = mapped_column(String(255), default=None)
 
     appointments: Mapped[list["Appointment"]] = relationship(back_populates="patient")

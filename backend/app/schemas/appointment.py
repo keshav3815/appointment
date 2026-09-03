@@ -15,6 +15,8 @@ class CreateAppointmentRequest(BaseModel):
     dob: date
     department: str
     doctor: str | None = None
+    doctor_id: int | None = None
+    consultation_mode: str | None = None
     appointment_date: date
     time_slot: str
     appointment_type: str
@@ -52,6 +54,13 @@ class CreateAppointmentRequest(BaseModel):
     def valid_appointment_type(cls, v: str) -> str:
         if v not in ("New", "Follow-up"):
             raise ValueError("invalid appointment type")
+        return v
+
+    @field_validator("consultation_mode")
+    @classmethod
+    def valid_consultation_mode(cls, v: str | None) -> str | None:
+        if v is not None and v not in ("clinic", "video"):
+            raise ValueError("invalid consultation mode")
         return v
 
     @field_validator("dob")

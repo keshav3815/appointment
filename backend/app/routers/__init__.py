@@ -1,0 +1,17 @@
+from . import (
+	admin_appointments,
+	admin_auth,
+	admin_dashboard,
+	admin_patients,
+	admin_payments,
+	admin_settings,
+	appointments,
+	csrf,
+	doctor_auth,
+	doctor_dashboard,
+	doctors,
+	otp,
+	patient_auth,
+	payments,
+	public_config,
+)

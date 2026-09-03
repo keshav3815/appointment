@@ -7,7 +7,7 @@ from starlette.requests import Request
 
 from app.config import settings
 from app.database import get_db
-from app.models import Appointment, Patient, Payment
+from app.models import Appointment, Doctor, Patient, Payment
 from app.schemas.payment import CreatePaymentOrderRequest, DemoCompleteRequest, VerifyPaymentRequest
 from app.services import razorpay_service
 from app.services.email_service import render_confirmation_email, send_mail
@@ -63,8 +63,9 @@ def create_payment_order(
             "demo": settings.payment_demo_mode,
         }
 
-    amount_inr = settings.CONSULTATION_FEE
-    amount_paise = amount_inr * 100
+    doctor = db.get(Doctor, appointment.doctor_id) if appointment.doctor_id else None
+    amount_inr = float(doctor.consultation_fee) if doctor and doctor.consultation_fee else settings.CONSULTATION_FEE
+    amount_paise = int(amount_inr * 100)
 
     if settings.payment_demo_mode:
         order = {"id": f"demo_order_{secrets.token_hex(10)}"}
@@ -248,11 +249,21 @@ def get_appointment_summary(appointment_id: int, request: Request, db: Session =
             content={"status": "error", "message": "Appointment details not found."},
         )
     appointment, patient, payment = row
+    doctor = db.get(Doctor, appointment.doctor_id) if appointment.doctor_id else None
+
+    video_link = (
+        f"{settings.FRONTEND_ORIGIN.rstrip('/')}/video/{appointment.appointment_id}"
+        if appointment.consultation_mode == "video"
+        else None
+    )
 
     data = {
         "appointment_id": appointment.appointment_id,
         "department": appointment.department,
         "doctor": appointment.doctor or "Any Available",
+        "consultation_mode": appointment.consultation_mode,
+        "clinic_address": doctor.clinic_address if doctor and appointment.consultation_mode == "clinic" else None,
+        "video_link": video_link,
         "appointment_date": appointment.appointment_date.isoformat(),
         "time_slot": appointment.time_slot,
         "appointment_type": appointment.appointment_type,

@@ -17,7 +17,11 @@ from app.routers import (
     admin_settings,
     appointments,
     csrf,
+    doctor_auth,
+    doctor_dashboard,
+    doctors,
     otp,
+    patient_auth,
     payments,
     public_config,
 )
@@ -29,6 +33,10 @@ app.include_router(otp.router)
 app.include_router(appointments.router)
 app.include_router(payments.router)
 app.include_router(public_config.router)
+app.include_router(doctors.router)
+app.include_router(patient_auth.router)
+app.include_router(doctor_auth.router)
+app.include_router(doctor_dashboard.router)
 app.include_router(admin_auth.router)
 app.include_router(admin_dashboard.router)
 app.include_router(admin_appointments.router)

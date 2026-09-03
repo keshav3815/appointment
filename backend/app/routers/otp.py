@@ -1,4 +1,5 @@
 import time
+import logging
 
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
@@ -34,8 +35,8 @@ def send_otp(payload: SendOtpRequest, db: Session = Depends(get_db)):
         html_body = render_otp_email(otp)
         send_mail(db, email, "Your Appointment Verification OTP", html_body)
         email_sent = True
-    except Exception:
-        pass
+    except Exception as e:
+        logging.exception("Failed to send OTP email to %s", email)
 
     response = {
         "status": "success",

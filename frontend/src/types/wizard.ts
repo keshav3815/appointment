@@ -9,6 +9,8 @@ export interface WizardFormData {
   state: string;
   department: string;
   doctor: string;
+  doctor_id: string;
+  consultation_mode: string;
   appointment_date: string;
   time_slot: string;
   appointment_type: string;
@@ -28,6 +30,8 @@ export const initialWizardFormData: WizardFormData = {
   state: "",
   department: "",
   doctor: "",
+  doctor_id: "",
+  consultation_mode: "",
   appointment_date: "",
   time_slot: "",
   appointment_type: "",

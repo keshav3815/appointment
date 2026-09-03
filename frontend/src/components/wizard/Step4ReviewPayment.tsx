@@ -45,11 +45,16 @@ const summaryRow = (label: string, value: string) => (
 
 export function Step4ReviewPayment({ onBack }: { onBack: () => void }) {
   const { state, showAlert, dispatch } = useWizard();
-  const { form, csrfToken, consultationFee, paymentDemoMode } = state;
+  const { form, csrfToken, consultationFee, paymentDemoMode, selectedDoctor } = state;
   const navigate = useNavigate();
   const [processing, setProcessing] = useState(false);
   const [appointmentCreated, setAppointmentCreated] = useState(false);
   const [statusText, setStatusText] = useState("");
+
+  const effectiveFee =
+    selectedDoctor?.consultation_fee !== null && selectedDoctor?.consultation_fee !== undefined
+      ? selectedDoctor.consultation_fee
+      : consultationFee;
 
   const handlePayNow = async () => {
     if (appointmentCreated || processing) return;
@@ -71,6 +76,8 @@ export function Step4ReviewPayment({ onBack }: { onBack: () => void }) {
         state: form.state,
         department: form.department,
         doctor: form.doctor,
+        doctor_id: form.doctor_id ? Number(form.doctor_id) : undefined,
+        consultation_mode: form.consultation_mode || undefined,
         appointment_date: form.appointment_date,
         time_slot: form.time_slot,
         appointment_type: form.appointment_type,
@@ -194,6 +201,8 @@ export function Step4ReviewPayment({ onBack }: { onBack: () => void }) {
         {summaryRow("Mobile", form.mobile)}
         {summaryRow("Department", form.department)}
         {summaryRow("Doctor", form.doctor || "Any Available")}
+        {form.consultation_mode &&
+          summaryRow("Consultation Mode", form.consultation_mode === "video" ? "Video Consultation" : "Clinic Visit")}
         {summaryRow("Date", form.appointment_date)}
         {summaryRow("Slot", form.time_slot)}
         {summaryRow("Type", form.appointment_type)}
@@ -206,7 +215,7 @@ export function Step4ReviewPayment({ onBack }: { onBack: () => void }) {
           className="text-[2.4rem] font-extrabold bg-clip-text text-transparent"
           style={{ backgroundImage: "linear-gradient(135deg, var(--primary), var(--accent))" }}
         >
-          ₹{consultationFee.toFixed(2)}
+          ₹{effectiveFee.toFixed(2)}
         </div>
       </div>
 
@@ -239,7 +248,7 @@ export function Step4ReviewPayment({ onBack }: { onBack: () => void }) {
             boxShadow: "0 4px 14px rgba(16,185,129,0.18)",
           }}
         >
-          {processing ? statusText : `Pay ₹${consultationFee.toFixed(2)}`}
+          {processing ? statusText : `Pay ₹${effectiveFee.toFixed(2)}`}
         </button>
       </div>
     </div>

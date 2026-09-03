@@ -20,7 +20,7 @@ export function Step3Reason({ onNext, onBack }: { onNext: () => void; onBack: ()
     <div>
       <div className={sectionHeaderClass}>Reason for Visit</div>
 
-      <div className="grid grid-cols-1 gap-4">
+      <div className="grid grid-cols-1 gap-5">
         <div>
           <label className={labelClass}>
             Reason <span className="text-[var(--danger)]">*</span>
@@ -31,7 +31,7 @@ export function Step3Reason({ onNext, onBack }: { onNext: () => void; onBack: ()
               setField("reason", e.target.value);
               setInvalid(false);
             }}
-            className={inputClass(invalid)}
+            className={inputClass(invalid) + " py-3"}
           >
             <option value="">Select Reason</option>
             {REASONS.map((r) => (
@@ -45,11 +45,11 @@ export function Step3Reason({ onNext, onBack }: { onNext: () => void; onBack: ()
             Symptoms <small className="text-[var(--muted)] font-normal">(Optional)</small>
           </label>
           <textarea
-            rows={3}
-            placeholder="Describe your symptoms in brief…"
+            rows={4}
+            placeholder="Briefly describe what you're experiencing — e.g. when it started, how severe it is…"
             value={form.symptoms}
             onChange={(e) => setField("symptoms", e.target.value)}
-            className={inputClass(false) + " resize-y min-h-[80px]"}
+            className={inputClass(false) + " resize-y min-h-[110px] leading-relaxed"}
           />
         </div>
 
@@ -60,7 +60,7 @@ export function Step3Reason({ onNext, onBack }: { onNext: () => void; onBack: ()
           <select
             value={form.duration}
             onChange={(e) => setField("duration", e.target.value)}
-            className={inputClass(false)}
+            className={inputClass(false) + " py-3"}
           >
             <option value="">Select Duration</option>
             {DURATIONS.map((d) => (
@@ -70,18 +70,18 @@ export function Step3Reason({ onNext, onBack }: { onNext: () => void; onBack: ()
         </div>
       </div>
 
-      <div className="flex justify-between items-center mt-7">
+      <div className="flex justify-between items-center mt-8">
         <button
           type="button"
           onClick={onBack}
-          className="font-semibold rounded-[var(--radius-md)] px-8 py-3 border-2 border-[#e2e8f0] text-[var(--muted)] bg-white hover:border-[var(--primary)] hover:text-[var(--primary)] hover:bg-[var(--primary-bg)]"
+          className="flex items-center gap-1.5 font-semibold rounded-[var(--radius-md)] px-6 py-3 border-2 border-[#e2e8f0] text-[var(--muted)] bg-white transition-colors hover:border-[var(--primary)] hover:text-[var(--primary)] hover:bg-[var(--primary-bg)]"
         >
           ← Back
         </button>
         <button
           type="button"
           onClick={handleNext}
-          className="text-white font-semibold rounded-[var(--radius-md)] px-8 py-3 min-w-[140px]"
+          className="flex items-center gap-1.5 text-white font-semibold rounded-[var(--radius-md)] px-8 py-3 min-w-[160px] justify-center transition-transform hover:-translate-y-0.5"
           style={{
             background: "linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%)",
             boxShadow: "var(--shadow-btn)",

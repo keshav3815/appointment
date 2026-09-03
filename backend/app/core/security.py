@@ -7,6 +7,8 @@ from app.config import settings
 
 JWT_ALGORITHM = "HS256"
 ADMIN_COOKIE_NAME = "admin_token"
+DOCTOR_COOKIE_NAME = "doctor_token"
+PATIENT_COOKIE_NAME = "patient_token"
 
 
 def hash_password(plain_password: str) -> str:
@@ -24,6 +26,32 @@ def create_admin_token(admin_id: int, role: str) -> str:
 
 
 def decode_admin_token(token: str) -> dict | None:
+    try:
+        return jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
+    except jwt.PyJWTError:
+        return None
+
+
+def create_doctor_token(doctor_id: int) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(minutes=settings.JWT_EXPIRE_MINUTES)
+    payload = {"doctor_id": doctor_id, "exp": expire}
+    return jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+
+
+def decode_doctor_token(token: str) -> dict | None:
+    try:
+        return jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
+    except jwt.PyJWTError:
+        return None
+
+
+def create_patient_token(patient_id: int) -> str:
+    expire = datetime.now(timezone.utc) + timedelta(minutes=settings.JWT_EXPIRE_MINUTES)
+    payload = {"patient_id": patient_id, "exp": expire}
+    return jwt.encode(payload, settings.JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+
+
+def decode_patient_token(token: str) -> dict | None:
     try:
         return jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
     except jwt.PyJWTError:

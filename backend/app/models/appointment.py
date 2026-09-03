@@ -16,6 +16,12 @@ class Appointment(Base):
     )
     department: Mapped[str] = mapped_column(String(100))
     doctor: Mapped[str | None] = mapped_column(String(120), default=None)
+    doctor_id: Mapped[int | None] = mapped_column(
+        ForeignKey("doctors.doctor_id", ondelete="SET NULL", onupdate="CASCADE"),
+        default=None,
+        index=True,
+    )
+    consultation_mode: Mapped[str | None] = mapped_column(String(10), default=None)
     appointment_date: Mapped[date] = mapped_column(Date, index=True)
     time_slot: Mapped[str] = mapped_column(String(30))
     appointment_type: Mapped[str] = mapped_column(
@@ -33,7 +39,9 @@ class Appointment(Base):
         Enum("Unpaid", "Paid", "Failed", "Refunded", name="appointment_payment_status"),
         default="Unpaid",
     )
+    doctor_remarks: Mapped[str | None] = mapped_column(Text, default=None)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
 
     patient: Mapped["Patient"] = relationship(back_populates="appointments")
     payments: Mapped[list["Payment"]] = relationship(back_populates="appointment")
+    doctor_ref: Mapped["Doctor | None"] = relationship(back_populates="appointments")
