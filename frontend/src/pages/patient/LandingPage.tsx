@@ -140,7 +140,7 @@ export function LandingPage() {
     <div className="bg-white min-h-screen">
       <PatientNav />
 
-      <section className="max-w-6xl mx-auto px-4 md:px-6 pt-16 pb-12 text-center relative z-10">
+      <section className="max-w-[90rem] mx-auto px-5 sm:px-8 lg:px-12 pt-16 pb-12 text-center relative z-10">
         <h1 className="font-extrabold text-[2rem] md:text-[2.6rem] leading-tight text-[var(--dark)] mb-3">
           Find the right doctor,
           <br />
@@ -230,7 +230,7 @@ export function LandingPage() {
         )}
       </section>
 
-      <section className="max-w-6xl mx-auto px-4 md:px-6 pb-12 relative z-10">
+      <section className="max-w-[90rem] mx-auto px-5 sm:px-8 lg:px-12 pb-12 relative z-10">
         <h2 className="font-bold text-[1.15rem] text-[var(--dark)] mb-4">Browse by Specialty</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
           {DEPARTMENTS.map((d) => (
@@ -252,7 +252,7 @@ export function LandingPage() {
       </section>
 
       {featured.length > 0 && (
-        <section className="max-w-6xl mx-auto px-4 md:px-6 pb-16 relative z-10">
+        <section className="max-w-[90rem] mx-auto px-5 sm:px-8 lg:px-12 pb-16 relative z-10">
           <h2 className="font-bold text-[1.15rem] text-[var(--dark)] mb-4">Featured Providers</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {featured.map((d) => (
@@ -263,7 +263,7 @@ export function LandingPage() {
       )}
 
       <footer className="border-t border-black/[0.06] bg-white/60 relative z-10">
-        <div className="max-w-6xl mx-auto px-4 md:px-6 py-8 flex flex-col md:flex-row justify-between gap-4 text-[0.85rem] text-[var(--muted)]">
+        <div className="max-w-[90rem] mx-auto px-5 sm:px-8 lg:px-12 py-8 flex flex-col md:flex-row justify-between gap-4 text-[0.85rem] text-[var(--muted)]">
           <div>© {new Date().getFullYear()} MedConnect. All rights reserved.</div>
           <div className="flex gap-5">
             <span className="flex items-center gap-1.5">📞 1800-XXX-XXXX</span>

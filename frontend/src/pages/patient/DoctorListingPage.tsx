@@ -141,7 +141,7 @@ export function DoctorListingPage() {
       <div className="relative z-10">
         <PatientNav />
 
-      <div className="max-w-6xl mx-auto px-4 md:px-6 py-8 relative z-10">
+      <div className="max-w-[90rem] mx-auto px-5 sm:px-8 lg:px-12 py-8 relative z-10">
         <h1 className="font-bold text-[1.4rem] text-[var(--dark)] mb-1">
           {specialization || "All"} Doctors{city ? ` in ${city}` : ""}
         </h1>

@@ -12,7 +12,7 @@ export function PatientNav() {
 
   return (
     <header className="sticky top-0 z-30 backdrop-blur-md bg-white/80 border-b border-black/[0.06]">
-      <div className="max-w-6xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+      <div className="max-w-[90rem] mx-auto px-5 sm:px-8 lg:px-12 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2 font-extrabold text-[1.15rem] text-[var(--dark)]">
           <span
             className="w-8 h-8 rounded-lg flex items-center justify-center text-white text-[1rem]"
